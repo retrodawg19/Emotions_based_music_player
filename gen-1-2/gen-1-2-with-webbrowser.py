@@ -37,17 +37,23 @@ user_name = spotifyObject.current_user()
 
 # To print the response in readable format.
 print(json.dumps(user_name, sort_keys=True, indent=4))
+While True :
+    search_song = imgcap_fun(facecap())
+    search_song = search_song["dominant_emotion"] + "songs"
+    print("Searching for",search_song)
+    #search_song = input("Enter the query string : ")
+    results = spotifyObject.search(search_song, 1, 0, "track")
 
-search_song = imgcap_fun(facecap())
-search_song = search_song["dominant_emotion"] + "songs"
-print("Searching for",search_song)
-#search_song = input("Enter the query string : ")
-results = spotifyObject.search(search_song, 1, 0, "track")
+    song_link = results["tracks"]["items"][0]["external_urls"]["spotify"]
 
-song_link = results["tracks"]["items"][0]["external_urls"]["spotify"]
-
-name = results["tracks"]["items"][0]["name"]
-artist = results["tracks"]["items"][0]['album']['artists'][0]['name']
-print(f"Playing {name} by {artist}")
-time.sleep(1)
-webbrowser.open(song_link)
+    name = results["tracks"]["items"][0]["name"]
+    artist = results["tracks"]["items"][0]['album']['artists'][0]['name']
+    print(f"Playing {name} by {artist}")
+    time.sleep(1)
+    webbrowser.open(song_link)
+    sleep_time = results["tracks"]["items"][0]["duration_ms"]
+    sleep_time = int(sleep_time/100)
+    sleep_time = sleep_time - 10
+    #time.sleep(sleep_time)
+    print(sleep_time)
+    time.sleep(10)
